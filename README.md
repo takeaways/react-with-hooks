@@ -340,33 +340,104 @@ export default ContextSample
 ### Immer를 사용한 더 쉬운 불변성 지키지
 <pre>
 <code>
-import React, {createContext, useContext} from 'react';
+  npm i immer
+  import produce from 'immer';
+  const newValue = produce(state, draft => {
+      draft 는 state 동일 값
+      const user = draft.users.find(user => user.id === action.id);
+      user.active = !user.active;
+    })
 
-const MyContext = createContext('defaultValue');
+</code>
+</pre>
 
-function Child(){
-  const text = useContext(MyContext);
-  return <div>{text}</text>
-}
+### 리액트 컴포넌트 스타일링 하기
+<pre>
+<code>
+  (sass) Syntacically awesome stypesheets
+  npm i classnames
+  npm i node-sass
 
-function Child1(){
-  return <Child />
-}
-function Child2(){
-  return <Child1 />
-}
-function Child3(){
-  return <Child2 />
-}
-function ContextSample(){
-  return (
-    <MyContext.Provider value="Good">
-      <Child3 text="ffff"/>
-    </MyContext.Provider>
-  )
-}
+  $blue: #228be6;
+  $gray: #495057;
+  $pink: #f06595;
 
-export default ContextSample
+  @mixin button-color($color){
+      background: $color;
+      &:hover{
+        background: lighten($color, 10%); //밝개
+      }
+      &:active{
+        background: darken($color, 10%);
+      }
+
+      &.outline{
+        color:$color;
+        background: none;
+        border: 1px solid $color;
+        &:hover{
+          background: $color;
+          color:white
+        }
+      }
+  }
+
+  .Button{
+    display: inline-flex;
+    color:white;
+    font-weight: bold;
+    outline: none;
+    border:none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    &.medium{
+      height: 2.25rem;
+      font-size: 1rem;
+    }
+    &.large{
+      height: 3rem;
+      font-size: 1.25rem;
+    }
+    &.small{
+      height: 1.75rem;
+      font-size: 0.875rem;
+    }
+
+    & + & {
+      margin-left: 1rem;
+    }
+
+    &.fullWidth{
+      width: 100%;
+      justify-content: center;
+      & + & {
+        margin-left: 0;
+        margin-right: 1rem;
+      }
+    }
+
+    &.blue{
+      @include button-color($blue)
+    }
+
+    &.gray{
+      @include button-color($gray)
+    }
+
+    &.pink{
+      @include button-color($pink)
+    }
+
+
+
+
+
+
+  }
 
 </code>
 </pre>
